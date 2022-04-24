@@ -1,28 +1,38 @@
 /**
- * Component showing a gradient with a circle indicating the current stressStatus.
- * The circel changes position to reflex the different state status.
+ * Component showing a gradient with a dot indicating the current anxietyState.
+ * The dot changes position to reflect the different anxiety states.
  *
  * Color/left position by stress status:
- * Normal: green / "0%"
+ * Normal: green / "-1%"
  * Low: yellow / "33%"
  * Medium: orange / "66%"
- * High: red / "100%"
+ * High: red / "101%"
  */
 
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-import { userData } from "../assets/userData";
 import colors from "../config/colors";
 
-function CurrentStateGraph(props) {
-  const DATA = JSON.parse(JSON.stringify(userData));
+function CurrentStateGraph({ lastLog, style }) {
+  //Anxiety state from the most recent log
+  const anxietyState = lastLog.anxietyState;
 
-  const lastLog = DATA[0];
+  let dotPosition;
+
+  if (anxietyState === "HIGH") {
+    dotPosition = "101%";
+  } else if (anxietyState === "MEDIUM") {
+    dotPosition = "66%";
+  } else if (anxietyState === "LOW") {
+    dotPosition = "33%";
+  } else if (anxietyState === "NORMAL") {
+    dotPosition = "-1%";
+  }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <LinearGradient
         colors={[colors.greenGra, colors.redGra]}
         style={styles.gradient}
@@ -30,7 +40,7 @@ function CurrentStateGraph(props) {
         end={[1, 0]}
       />
       <View style={styles.circleWrapper}>
-        <View style={[styles.circle]} />
+        <View style={[styles.circle, { left: dotPosition }]} />
       </View>
     </View>
   );
@@ -44,19 +54,18 @@ const styles = StyleSheet.create({
     borderWidth: 10,
     borderColor: colors.darkGrey,
     position: "absolute",
-    left: "66%",
   },
   circleWrapper: {
     height: 50,
     width: "100%",
     position: "absolute",
     paddingHorizontal: 25,
-    marginLeft: 40,
+    marginLeft: 20,
   },
   container: {
     height: 50,
     width: "100%",
-    paddingHorizontal: 40,
+    paddingHorizontal: 20,
     justifyContent: "center",
   },
   gradient: {
