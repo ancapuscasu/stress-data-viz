@@ -10,22 +10,27 @@ function Users() {
     {
       id: "1",
       name: "LM",
-      bgColor: `${colors.blue}90`,
+      bgColor: colors.blue,
     },
     {
       id: "2",
       name: "AP",
-      bgColor: `${colors.red}90`,
+      bgColor: colors.red,
     },
     {
       id: "3",
       name: "MD",
-      bgColor: `${colors.green}90`,
+      bgColor: colors.green,
     },
     {
       id: "4",
       name: "RN",
-      bgColor: `${colors.orange}90`,
+      bgColor: colors.orange,
+    },
+    {
+      id: "5",
+      name: "SR",
+      bgColor: "pink",
     },
   ];
 
