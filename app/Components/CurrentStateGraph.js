@@ -2,7 +2,7 @@
  * Component showing a gradient with a dot indicating the current anxietyState.
  * The dot changes position to reflect the different anxiety states.
  *
- * Color/left position by stress status:
+ * Color/left position by anxiety status:
  * Normal: green / "-1%"
  * Low: yellow / "33%"
  * Medium: orange / "66%"
