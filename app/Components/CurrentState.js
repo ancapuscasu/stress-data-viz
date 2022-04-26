@@ -1,34 +1,34 @@
 /**
  * Component shows the current anxietyState, how long ago the state was updated and the
- * CurrentStateGraph gradient meter to visually show the anxietyState
+ * CurrentStateGraph gradient meter to visually show the current anxietyState on a meter
  */
 
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import moment from "moment";
 
 import AppText from "./AppText";
 import CurrentStateGraph from "./CurrentStateGraph";
 import colors from "../config/colors";
+import GraphContainer from "./GraphContainer";
 
-function CurrentState({ userData, style }) {
-  // Most recent object (log) from userData array
-  const lastLog = userData[0];
-
+function CurrentState({ lastLog, style }) {
   //Function to get time ago of the latest log (compares updatedAt time to current time)
   const lastUpdate = moment.utc(`${lastLog.updatedAt.$date}`).local().fromNow();
 
   return (
-    <View style={[styles.container, style]}>
+    <GraphContainer>
       <View style={styles.messageContainer}>
-        <AppText style={styles.stressStatus}>{lastLog.anxietyState}</AppText>
+        <AppText style={styles.anxietyState}>{lastLog.anxietyState}</AppText>
         <AppText style={styles.updateMsg}>Last updated {lastUpdate}</AppText>
       </View>
       <CurrentStateGraph style={styles.graph} lastLog={lastLog} />
-      <View style={styles.button}>
-        <AppText style={styles.buttonText}>Add A Note</AppText>
-      </View>
-    </View>
+      <TouchableOpacity>
+        <View style={styles.button}>
+          <AppText style={styles.buttonText}>Add A Note</AppText>
+        </View>
+      </TouchableOpacity>
+    </GraphContainer>
   );
 }
 const styles = StyleSheet.create({
@@ -45,12 +45,6 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     color: colors.white,
   },
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 15,
-    margin: 10,
-  },
   graph: {
     marginBottom: 45,
     margin: 20,
@@ -60,7 +54,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 45,
   },
-  stressStatus: {
+  anxietyState: {
     fontWeight: "500",
     fontSize: 55,
     textTransform: "capitalize",
