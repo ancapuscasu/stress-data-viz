@@ -1,11 +1,15 @@
+/**
+ * Component that displays a FlatList of client icons - users refers to watch wearers
+ * Uses a mock user list
+ */
 import React from "react";
-import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 
 import UserIcon from "./UserIcon";
 import colors from "../config/colors";
 import AppText from "./AppText";
 
-function Users() {
+function Users({ onPress }) {
   const USERS = [
     {
       id: "1",
@@ -45,7 +49,7 @@ function Users() {
         numColumns={3}
         data={USERS}
         renderItem={({ item }) => (
-          <UserIcon name={item.name} bgColor={item.bgColor} />
+          <UserIcon name={item.name} bgColor={item.bgColor} onPress={onPress} />
         )}
       />
     </View>
