@@ -12,6 +12,6 @@ export default {
   white: "#fff",
   black: "#000",
   lightGrey: "#F2F2F2",
-  mediumGrey: "#737373",
+  mediumGrey: "#aaa9a8",
   darkGrey: "#474747",
 };
