@@ -1,14 +1,37 @@
-import react from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { StyleSheet } from "react-native";
+
+// import react native gesture handler
+import "react-native-gesture-handler";
+
+// import react Navigation
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import WelcomeScreen from "./app/screens/WelcomeScreen";
-import HomeScreen from "./app/screens/HomeScreen";
-import TestScreen from "./app/screens/TestScreen";
+import Dashboard from "./app/screens/Dashboard";
 import CurrentStateGraph from "./app/Components/CurrentStateGraph";
 import CurrentState from "./app/Components/CurrentState";
+import HorizontalBarGraph from "./app/Components/HorizontalBarGraph";
+import LineGraph from "./app/Components/LineGraph";
+
+// Create the navigator
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  return <CurrentState />;
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+        initialRouteName="WelcomeScreen"
+      >
+        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
+        <Stack.Screen name="Dashboard" component={Dashboard} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
 
 const styles = StyleSheet.create({
