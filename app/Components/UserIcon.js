@@ -1,11 +1,10 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
-import colors from "../config/colors";
 import AppText from "./AppText";
 
-function UserIcon({ name, bgColor }) {
+function UserIcon({ name, bgColor, onPress }) {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <View style={[styles.container, { backgroundColor: bgColor }]}>
         <AppText style={styles.initials}>{name}</AppText>
       </View>
