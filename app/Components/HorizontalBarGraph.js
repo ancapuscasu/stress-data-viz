@@ -16,7 +16,6 @@ import AppText from "./AppText";
 import colors from "../config/colors";
 
 function HorizontalBarGraph({ dataToday }) {
-  //Functions to get number of logs with the respective anxiety states - represented as minutes
   const minsNormal = dataToday.filter(
     (sample) => sample.anxietyState === "NORMAL"
   ).length;
@@ -35,9 +34,8 @@ function HorizontalBarGraph({ dataToday }) {
 
   return (
     <GraphContainer style={styles.container}>
-      <AppText style={styles.text}>
-        Time spent in each anxiety state today
-      </AppText>
+      <AppText style={styles.dayHeading}>Today</AppText>
+      <AppText style={styles.text}>Time spent in each anxiety state</AppText>
       <VictoryChart
         width={350}
         height={200}
@@ -95,9 +93,13 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
   },
+  dayHeading: {
+    fontWeight: "bold",
+    paddingTop: 30,
+  },
   text: {
     fontSize: 16,
-    paddingTop: 30,
+    paddingTop: 10,
     fontWeight: "bold",
   },
 });
