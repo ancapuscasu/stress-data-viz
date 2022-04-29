@@ -1,11 +1,14 @@
+/**
+ * Component that displays currentBpm over time on the day of the last retrieved log.
+ * Data is smoothed using a moving average filter.
+ *
+ */
 import React from "react";
 import {
   VictoryChart,
   VictoryLine,
   VictoryTheme,
   VictoryAxis,
-  VictoryPortal,
-  VictoryLabel,
 } from "victory-native";
 import moment from "moment";
 import { StyleSheet } from "react-native";
@@ -19,9 +22,38 @@ function LineGraph({ dataToday, latestDate }) {
   const xRange0 = new Date(moment(latestDate).add(-5, "hour"));
   const xRange1 = new Date(moment(latestDate).add(19, "hour"));
 
+  /**
+   * Moving average filter
+   *
+   * for each timepoint, get the average heart rate in 5 minute window around that time.
+   * By averaging multiple datapoints, we get a more reliable measurement, and a smoother plot.
+   */
+  dataToday.forEach(smooth);
+
+  function smooth(item, index, arr) {
+    // get time boundaries of 5 min window
+    const timeNow = item.time;
+    const time0 = timeNow - 150000;
+    const time1 = timeNow + 150000;
+
+    //
+    const window = arr.filter(
+      (sample) => sample.time > time0 && sample.time <= time1
+    );
+    if (window.length >= 3) {
+      const average =
+        window.reduce((total, next) => total + next.currentBpm, 0) /
+        window.length;
+      arr[index].smooth = average;
+    } else {
+      arr[index].smooth = null;
+    }
+  }
+
   return (
     <GraphContainer style={styles.container}>
-      <AppText style={styles.text}>Anxiety level throughout the day</AppText>
+      <AppText style={styles.dayHeading}>Today</AppText>
+      <AppText style={styles.text}>Heart rate throughout the day</AppText>
       <VictoryChart
         width={370}
         height={300}
@@ -31,8 +63,8 @@ function LineGraph({ dataToday, latestDate }) {
       >
         <VictoryLine
           data={dataToday}
-          x={(d) => new Date((d = d.createdAt.$date))}
-          y="anxietyLevel"
+          x="time"
+          y="smooth"
           style={{
             data: { stroke: colors.orange },
             parent: { border: "1px solid #ccc" },
@@ -40,15 +72,19 @@ function LineGraph({ dataToday, latestDate }) {
         />
 
         <VictoryAxis
+          tickValues={[
+            moment(latestDate).add(-5, "h"),
+            moment(latestDate).add(7, "h"),
+            moment(latestDate).add(18, "h").add(59, "m"),
+          ]}
           tickFormat={(x) => moment(x).utc().format("HH:mm")}
           //   fixLabelOverlap={true}
-          tickCount={10}
+
           style={{
             grid: { stroke: "transparent" },
             tickLabels: {
               fontSize: 14,
               fontWeight: "500",
-              angle: -45,
             },
           }}
         />
@@ -68,9 +104,13 @@ function LineGraph({ dataToday, latestDate }) {
 }
 
 const styles = StyleSheet.create({
+  dayHeading: {
+    fontWeight: "bold",
+    paddingTop: 30,
+  },
   text: {
     fontSize: 16,
-    paddingTop: 30,
+    paddingTop: 10,
     fontWeight: "bold",
   },
 });
