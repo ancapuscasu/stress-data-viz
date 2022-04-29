@@ -25,6 +25,8 @@
     },
     "web": {
       "favicon": "./app/assets/favicon.png"
-    }
+    },
+    "description": "",
+    "githubUrl": "https://github.com/ancapuscasu/stress-data-viz"
   }
 }
