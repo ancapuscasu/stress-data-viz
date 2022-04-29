@@ -1,12 +1,11 @@
 import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
+import moment, { weekdays } from "moment";
 
 import colors from "../config/colors";
 import AppText from "./AppText";
 
-const dayToday = new Date().toLocaleString(window.navigator.language, {
-  weekday: "long",
-});
+const dayToday = moment(new Date()).format("dddd");
 
 function GreetingMessage(props) {
   return (
