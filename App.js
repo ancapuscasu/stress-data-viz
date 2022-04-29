@@ -10,10 +10,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import DashboardScreen from "./app/screens/DashboardScreen";
-import CurrentStateGraph from "./app/Components/CurrentStateGraph";
-import CurrentState from "./app/Components/CurrentState";
-import HorizontalBarGraph from "./app/Components/HorizontalBarGraph";
-import LineGraph from "./app/Components/LineGraph";
 
 // Create the navigator
 const Stack = createNativeStackNavigator();
