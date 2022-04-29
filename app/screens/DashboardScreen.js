@@ -2,11 +2,11 @@
  * DashboardScreen component displays components: Header, CurrentState, HorizontalBarGraph, LineGraph
  * Imports userData from assets and passes data as props to child components
  */
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, ScrollView } from "react-native";
 import moment from "moment";
 
-import { userData } from "../assets/userData";
+import userData from "../assets/userData.json";
 import Header from "../Components/Header";
 import CurrentState from "../Components/CurrentState";
 import HorizontalBarGraph from "../Components/HorizontalBarGraph";
@@ -15,24 +15,24 @@ import colors from "../config/colors";
 import LineGraph from "../Components/LineGraph";
 
 function DashboardScreen() {
-  const DATA = JSON.parse(JSON.stringify(userData));
-
   // Most recent object (log) from userData
-  const lastLog = DATA[0];
+  let lastLog = userData[0];
+
+  console.log(lastLog);
 
   // Function to parse ISO datetime - returns date as string in "YYYY-MM-DD" format
-  function parseSampleDate(sample) {
-    return moment(sample.createdAt.$date).utc().format("YYYY-MM-DD");
+  function parseLogDate(log) {
+    return moment(log.createdAt.$date).utc().format("YYYY-MM-DD");
   }
 
-  //Function to parse the latest date
-  const latestDate = parseSampleDate(lastLog);
+  //Data Latest Day
+  //Function to parse the latest date - returns date as string in "YYYY-MM-DD" format
+  const latestDate = parseLogDate(lastLog);
 
   //Function to filter userData to get all logs that match latestDate - returns array of logs
-  const dataToday = userData.filter(
-    (sample) => parseSampleDate(sample) === latestDate
-  );
+  const dataToday = userData.filter((log) => parseLogDate(log) === latestDate);
 
+  // console.log(dataLatestDateMinusThree);
   return (
     <Screen style={styles.container}>
       <ScrollView>
